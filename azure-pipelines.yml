@@ -15,7 +15,7 @@ steps:
     xrayConnection: 'demoxray'
     watchesSource: 'project'
     project: 'alpha'
-    allowFailBuild: true
+    allowFailBuild: false
     
 - task: JFrogMaven@1
   inputs:
