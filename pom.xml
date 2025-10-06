@@ -84,7 +84,7 @@
              <dependency>
                         <groupId>org.springframework</groupId>
                         <artifactId>spring-context-support</artifactId>
-                        <version>${org.springframework-version}</version>
+                        <version>4.2.2.RELEASE</version>
                 </dependency>
 		
 		<!-- https://mvnrepository.com/artifact/com.github.codingandcoding/maven-compiler-plugin -->
