@@ -1,0 +1,48 @@
+# Maven
+# Build your Java project and run tests with Apache Maven.
+# Add steps that analyze code, save build artifacts, deploy, and more:
+# https://docs.microsoft.com/azure/devops/pipelines/languages/java
+
+trigger:
+- main
+
+pool:
+  vmImage: ubuntu-latest
+
+steps:
+- task: JFrogAudit@1
+  inputs:
+    xrayConnection: 'demoxray'
+    watchesSource: 'project'
+    project: 'alpha'
+    allowFailBuild: true
+    
+- task: JFrogMaven@1
+  inputs:
+    mavenPomFile: 'pom.xml'
+    goals: 'install'
+    artifactoryResolverService: 'art'
+    targetResolveReleaseRepo: 'alpha-mvn-blr-libs-release'
+    targetResolveSnapshotRepo: 'alpha-mvn-blr-libs-snapshot'
+    artifactoryDeployService: 'art'
+    targetDeployReleaseRepo: 'alpha-mvn-blr-libs-release'
+    targetDeploySnapshotRepo: 'alpha-mvn-blr-libs-snapshot'
+    collectBuildInfo: true
+    buildName: '$(Build.DefinitionName)'
+    buildNumber: '$(Build.BuildNumber)'
+    projectKey: 'alpha'
+    includeEnvVars: true
+    javaHomeOption: 'JDKVersion'
+
+- task: CmdLine@2
+  inputs:
+    script: 'sleep 30s'
+
+- task: JFrogBuildScan@1
+  inputs:
+    xrayConnection: 'demoxray'
+    buildName: '$(Build.DefinitionName)'
+    buildNumber: '$(Build.BuildNumber)'
+    projectKey: 'alpha'
+    allowFailBuild: true
+    vuln: false
