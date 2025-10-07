@@ -15,7 +15,7 @@ steps:
     xrayConnection: 'demoxray'
     watchesSource: 'project'
     project: 'alpha'
-    allowFailBuild: false
+    allowFailBuild: true
     
 - task: JFrogMaven@1
   inputs:
@@ -33,6 +33,14 @@ steps:
     projectKey: 'alpha'
     includeEnvVars: true
     javaHomeOption: 'JDKVersion'
+
+- task: JFrogPublishBuildInfo@1
+  inputs:
+    artifactoryConnection: 'art'
+    buildName: '$(Build.DefinitionName)'
+    buildNumber: '$(Build.BuildNumber)'
+    projectKey: 'alpha'
+
 
 - task: CmdLine@2
   inputs:
